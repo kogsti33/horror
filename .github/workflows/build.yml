@@ -33,6 +33,7 @@ jobs:
           os.makedirs(f"{C}/assets/indexes", exist_ok=True)
           os.makedirs(f"{C}/versions/1.7.10", exist_ok=True)
           os.makedirs(f"{C}/jars", exist_ok=True)
+
           with urllib.request.urlopen("https://launchermeta.mojang.com/mc/game/version_manifest.json") as r:
               m = json.load(r)
           url = next(v["url"] for v in m["versions"] if v["id"] == "1.7.10")
@@ -40,10 +41,21 @@ jobs:
               d = r.read()
           open(f"{C}/versions/1.7.10/1.7.10.json","wb").write(d)
           vj = json.loads(d)
+
           with urllib.request.urlopen(vj["assetIndex"]["url"]) as r:
               open(f"{C}/assets/indexes/1.7.10.json","wb").write(r.read())
-          urllib.request.urlretrieve(vj["downloads"]["client"]["url"], f"{C}/jars/minecraft.jar")
+
+          client_url = vj["downloads"]["client"]["url"]
+          urllib.request.urlretrieve(client_url, f"{C}/jars/minecraft.jar")
+          urllib.request.urlretrieve(client_url, f"{C}/versions/1.7.10/1.7.10.jar")
+
+          server_url = vj["downloads"]["server"]["url"]
+          urllib.request.urlretrieve(server_url, f"{C}/jars/minecraft_server.jar")
+          urllib.request.urlretrieve(server_url, f"{C}/versions/1.7.10/minecraft_server.1.7.10.jar")
+
           print("Done!")
+          print(f"client: {os.path.exists(C+'/versions/1.7.10/1.7.10.jar')}")
+          print(f"server: {os.path.exists(C+'/versions/1.7.10/minecraft_server.1.7.10.jar')}")
           EOF
 
       - name: Build
