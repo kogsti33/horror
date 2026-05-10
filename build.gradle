@@ -1,8 +1,8 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven { url "https://files.minecraftforge.net/maven" }
+        maven { url "https://maven.minecraftforge.net" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        mavenCentral()
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
@@ -20,19 +20,15 @@ minecraft {
     runDir  = "run"
 }
 
-dependencies {
-    // Nothing extra needed — pure Forge
-}
+dependencies {}
 
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
-
     from(sourceSets.main.resources.srcDirs) {
         include "mcmod.info"
         expand "version": project.version, "mcversion": project.minecraft.version
     }
-
     from(sourceSets.main.resources.srcDirs) {
         exclude "mcmod.info"
     }
