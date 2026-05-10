@@ -20,27 +20,30 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
 
-      # Install Gradle 2.14.1 manually (required by ForgeGradle 1.2)
       - name: Install Gradle 2.14.1
         run: |
           wget -q https://services.gradle.org/distributions/gradle-2.14.1-bin.zip -O /tmp/gradle.zip
           unzip -q /tmp/gradle.zip -d /opt/gradle
           echo "/opt/gradle/gradle-2.14.1/bin" >> $GITHUB_PATH
 
-      - name: Verify Gradle version
-        run: gradle --version
-
       - name: Generate Gradle wrapper
         run: gradle wrapper --gradle-version 2.14.1
 
+      - name: Show build.gradle for debug
+        run: cat build.gradle
+
+      - name: List available tasks
+        run: ./gradlew tasks --no-daemon --stacktrace 2>&1 | head -80
+
       - name: Setup Forge workspace
-        run: ./gradlew setupDecompWorkspace --no-daemon
+        run: ./gradlew setupDecompWorkspace --no-daemon --stacktrace --info 2>&1
 
       - name: Build
-        run: ./gradlew build --no-daemon
+        run: ./gradlew build --no-daemon --stacktrace
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: RealityFracture-1.0.0
           path: build/libs/*.jar
+          
