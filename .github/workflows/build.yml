@@ -20,16 +20,24 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: '2.14.1'
+      # Install Gradle 2.14.1 manually (required by ForgeGradle 1.2)
+      - name: Install Gradle 2.14.1
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-2.14.1-bin.zip -O /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /opt/gradle
+          echo "/opt/gradle/gradle-2.14.1/bin" >> $GITHUB_PATH
+
+      - name: Verify Gradle version
+        run: gradle --version
+
+      - name: Generate Gradle wrapper
+        run: gradle wrapper --gradle-version 2.14.1
 
       - name: Setup Forge workspace
-        run: gradle setupDecompWorkspace --no-daemon
+        run: ./gradlew setupDecompWorkspace --no-daemon
 
       - name: Build
-        run: gradle build --no-daemon
+        run: ./gradlew build --no-daemon
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
