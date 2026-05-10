@@ -29,21 +29,57 @@ jobs:
       - name: Generate Gradle wrapper
         run: gradle wrapper --gradle-version 2.14.1
 
-      - name: Show build.gradle for debug
-        run: cat build.gradle
+      # Pre-create the Minecraft asset files that ForgeGradle 1.2 tries to download
+      # from dead Amazon S3 URLs (s3.amazonaws.com/Minecraft.Download — gone since ~2020)
+      - name: Pre-populate Minecraft asset cache
+        run: |
+          CACHE_DIR="$HOME/.gradle/caches/minecraft"
+          ASSETS_DIR="$CACHE_DIR/assets/indexes"
+          VERSIONS_DIR="$CACHE_DIR/versions/1.7.10"
+          mkdir -p "$ASSETS_DIR" "$VERSIONS_DIR"
 
-      - name: List available tasks
-        run: ./gradlew tasks --no-daemon --stacktrace 2>&1 | head -80
+          # 1.7.10 version manifest (from working mirror)
+          wget -q "https://skmedix.pl/files/mc/versions/1.7.10/1.7.10.json" \
+               -O "$VERSIONS_DIR/1.7.10.json" || \
+          wget -q "https://piston-meta.mojang.com/v1/packages/8bb0f5ad47d01dc7d61e22f9f7d31f9b6d79c35d/1.7.10.json" \
+               -O "$VERSIONS_DIR/1.7.10.json" || \
+          curl -sL "https://launchermeta.mojang.com/mc/game/version_manifest.json" | \
+            python3 -c "
+          import json,sys,urllib.request
+          data=json.load(sys.stdin)
+          url=next(v['url'] for v in data['versions'] if v['id']=='1.7.10')
+          urllib.request.urlretrieve(url, '$VERSIONS_DIR/1.7.10.json')
+          print('Downloaded 1.7.10.json via manifest')
+          "
+
+          # Assets index
+          ASSET_HASH=$(python3 -c "
+          import json
+          with open('$VERSIONS_DIR/1.7.10.json') as f:
+              d=json.load(f)
+          print(d['assetIndex']['url'])
+          " 2>/dev/null || echo "")
+
+          if [ -n "$ASSET_HASH" ]; then
+            wget -q "$ASSET_HASH" -O "$ASSETS_DIR/1.7.10.json"
+            echo "Downloaded assets index"
+          else
+            # Fallback: minimal valid assets index
+            echo '{"objects":{}}' > "$ASSETS_DIR/1.7.10.json"
+            echo "Created minimal assets index fallback"
+          fi
+
+          echo "=== Version JSON exists: $(test -f $VERSIONS_DIR/1.7.10.json && echo YES || echo NO) ==="
+          echo "=== Assets index exists: $(test -f $ASSETS_DIR/1.7.10.json && echo YES || echo NO) ==="
 
       - name: Setup Forge workspace
-        run: ./gradlew setupDecompWorkspace --no-daemon --stacktrace --info 2>&1
+        run: ./gradlew setupDecompWorkspace --no-daemon
 
       - name: Build
-        run: ./gradlew build --no-daemon --stacktrace
+        run: ./gradlew build --no-daemon
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: RealityFracture-1.0.0
           path: build/libs/*.jar
-          
