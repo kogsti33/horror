@@ -1,161 +1,55 @@
-8s
-Run ./gradlew setupDecompWorkspace --no-daemon --stacktrace --info 2>&1
-Starting Build
-Settings evaluated using settings file '/master/settings.gradle'.
-Projects loaded. Root project using build file '/home/runner/work/horror/horror/build.gradle'.
-Included projects: [root project 'horror']
-Evaluating root project 'horror' using build file '/home/runner/work/horror/horror/build.gradle'.
-WARNING: You are using an unsupported version of ForgeGradle.
-Please consider upgrading to ForgeGradle 4 and helping in the efforts to get old versions working on the modern toolchain.
-See https://gist.github.com/TheCurle/fe7ad3ede188cbdd15c235cc75d52d4a for more info on contributing.
-#################################################
-         ForgeGradle 1.2.2-g2ea0336        
-  https://github.com/MinecraftForge/ForgeGradle  
-#################################################
-               Powered by MCP unknown               
-             http://modcoderpack.com             
-         by: Searge, ProfMobius, Fesh0r,         
-         R4wk, ZeuX, IngisKahn, bspkrs           
-#################################################
-file or directory '/home/runner/work/horror/horror/src/api/resources', not found
-All projects evaluated.
-Selected primary task 'setupDecompWorkspace' from project :
-Tasks to be executed: [task ':extractMcpData', task ':getVersionJson', task ':extractUserDev', task ':genSrgs', task ':extractNatives', task ':getAssetsIndex', task ':getAssets', task ':makeStart', task ':downloadMcpTools', task ':downloadClient', task ':downloadServer', task ':mergeJars', task ':deobfuscateJar', task ':decompile', task ':processSources', task ':remapJar', task ':extractMinecraftSrc', task ':recompMinecraft', task ':repackMinecraft', task ':setupDecompWorkspace']
-:extractMcpData (Thread[main,5,main]) started.
-:extractMcpData
-Executing task ':extractMcpData' (up-to-date check took 0.01 secs) due to:
-  No history is available.
-:extractMcpData (Thread[main,5,main]) completed. Took 0.02 secs.
-:getVersionJson (Thread[main,5,main]) started.
-:getVersionJson
-Executing task ':getVersionJson' (up-to-date check took 0.0 secs) due to:
-  Task has not declared any outputs.
-http://s3.amazonaws.com/Minecraft.Download/versions/1.7.10/1.7.10.json  404'ed!
-:getVersionJson (Thread[main,5,main]) completed. Took 0.214 secs.
-:extractUserDev (Thread[main,5,main]) started.
-:extractUserDev
-Resource missing. [HTTP GET: https://maven.minecraftforge.net/net/minecraftforge/forge/1.7.10-10.13.4.1614-1.7.10/forge-1.7.10-10.13.4.1614-1.7.10.pom]
-Resource missing. [HTTP GET: https://repo1.maven.org/maven2/net/minecraftforge/forge/1.7.10-10.13.4.1614-1.7.10/forge-1.7.10-10.13.4.1614-1.7.10.pom]
-Resource missing. [HTTP HEAD: https://repo1.maven.org/maven2/net/minecraftforge/forge/1.7.10-10.13.4.1614-1.7.10/forge-1.7.10-10.13.4.1614-1.7.10-userdev.jar]
-Resource missing. [HTTP GET: https://libraries.minecraft.net/net/minecraftforge/forge/1.7.10-10.13.4.1614-1.7.10/forge-1.7.10-10.13.4.1614-1.7.10.pom]
-Resource missing. [HTTP HEAD: https://libraries.minecraft.net/net/minecraftforge/forge/1.7.10-10.13.4.1614-1.7.10/forge-1.7.10-10.13.4.1614-1.7.10-userdev.jar]
-Download https://maven.minecraftforge.net/net/minecraftforge/forge/1.7.10-10.13.4.1614-1.7.10/forge-1.7.10-10.13.4.1614-1.7.10-userdev.jar
-Executing task ':extractUserDev' (up-to-date check took 1.815 secs) due to:
-  No history is available.
-:extractUserDev (Thread[main,5,main]) completed. Took 2.063 secs.
-:genSrgs (Thread[main,5,main]) started.
-:genSrgs
-Executing task ':genSrgs' (up-to-date check took 0.001 secs) due to:
-  No history is available.
-:genSrgs (Thread[main,5,main]) completed. Took 0.431 secs.
-:extractNatives (Thread[main,5,main]) started.
-:extractNatives
-Download https://maven.minecraftforge.net/org/lwjgl/lwjgl/lwjgl-platform/2.9.1/lwjgl-platform-2.9.1.pom
-Download https://maven.minecraftforge.net/org/lwjgl/lwjgl/parent/2.9.1/parent-2.9.1.pom
-Download https://maven.minecraftforge.net/net/java/jinput/jinput-platform/2.0.5/jinput-platform-2.0.5.pom
-Download https://maven.minecraftforge.net/org/lwjgl/lwjgl/lwjgl-platform/2.9.1/lwjgl-platform-2.9.1-natives-linux.jar
-Download https://maven.minecraftforge.net/net/java/jinput/jinput-platform/2.0.5/jinput-platform-2.0.5-natives-linux.jar
-Executing task ':extractNatives' (up-to-date check took 1.053 secs) due to:
-  No history is available.
-:extractNatives (Thread[main,5,main]) completed. Took 1.071 secs.
-:getAssetsIndex (Thread[main,5,main]) started.
-:getAssetsIndex
-Executing task ':getAssetsIndex' (up-to-date check took 0.0 secs) due to:
-  Task has not declared any outputs.
-https://s3.amazonaws.com/Minecraft.Download/indexes/1.7.10.json  404'ed!
-:getAssetsIndex FAILED
-:getAssetsIndex (Thread[main,5,main]) completed. Took 0.23 secs.
+name: Build Mod
 
-FAILURE: Build failed with an exception.
+on:
+  push:
+    branches: [ main, master ]
 
-* What went wrong:
-Execution failed for task ':getAssetsIndex'.
-> java.io.FileNotFoundException: /home/runner/.gradle/caches/minecraft/assets/indexes/1.7.10.json (No such file or directory)
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-* Try:
-Run with --debug option to get more log output.
+    steps:
+      - uses: actions/checkout@v4
 
-* Exception is:
-org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':getAssetsIndex'.
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeActions(ExecuteActionsTaskExecuter.java:69)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:46)
-	at org.gradle.api.internal.tasks.execution.PostExecutionAnalysisTaskExecuter.execute(PostExecutionAnalysisTaskExecuter.java:35)
-	at org.gradle.api.internal.tasks.execution.SkipUpToDateTaskExecuter.execute(SkipUpToDateTaskExecuter.java:66)
-	at org.gradle.api.internal.tasks.execution.ValidatingTaskExecuter.execute(ValidatingTaskExecuter.java:58)
-	at org.gradle.api.internal.tasks.execution.SkipEmptySourceFilesTaskExecuter.execute(SkipEmptySourceFilesTaskExecuter.java:52)
-	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:52)
-	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:53)
-	at org.gradle.api.internal.tasks.execution.ExecuteAtMostOnceTaskExecuter.execute(ExecuteAtMostOnceTaskExecuter.java:43)
-	at org.gradle.execution.taskgraph.DefaultTaskGraphExecuter$EventFiringTaskWorker.execute(DefaultTaskGraphExecuter.java:203)
-	at org.gradle.execution.taskgraph.DefaultTaskGraphExecuter$EventFiringTaskWorker.execute(DefaultTaskGraphExecuter.java:185)
-	at org.gradle.execution.taskgraph.AbstractTaskPlanExecutor$TaskExecutorWorker.processTask(AbstractTaskPlanExecutor.java:66)
-	at org.gradle.execution.taskgraph.AbstractTaskPlanExecutor$TaskExecutorWorker.run(AbstractTaskPlanExecutor.java:50)
-	at org.gradle.execution.taskgraph.DefaultTaskPlanExecutor.process(DefaultTaskPlanExecutor.java:25)
-	at org.gradle.execution.taskgraph.DefaultTaskGraphExecuter.execute(DefaultTaskGraphExecuter.java:110)
-	at org.gradle.execution.SelectedTaskExecutionAction.execute(SelectedTaskExecutionAction.java:37)
-	at org.gradle.execution.DefaultBuildExecuter.execute(DefaultBuildExecuter.java:37)
-	at org.gradle.execution.DefaultBuildExecuter.access$000(DefaultBuildExecuter.java:23)
-	at org.gradle.execution.DefaultBuildExecuter$1.proceed(DefaultBuildExecuter.java:43)
-	at org.gradle.execution.DryRunBuildExecutionAction.execute(DryRunBuildExecutionAction.java:32)
-	at org.gradle.execution.DefaultBuildExecuter.execute(DefaultBuildExecuter.java:37)
-	at org.gradle.execution.DefaultBuildExecuter.execute(DefaultBuildExecuter.java:30)
-	at org.gradle.initialization.DefaultGradleLauncher$4.run(DefaultGradleLauncher.java:153)
-	at org.gradle.internal.Factories$1.create(Factories.java:22)
-	at org.gradle.internal.progress.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:91)
-	at org.gradle.internal.progress.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:53)
-	at org.gradle.initialization.DefaultGradleLauncher.doBuildStages(DefaultGradleLauncher.java:150)
-	at org.gradle.initialization.DefaultGradleLauncher.access$200(DefaultGradleLauncher.java:32)
-	at org.gradle.initialization.DefaultGradleLauncher$1.create(DefaultGradleLauncher.java:98)
-	at org.gradle.initialization.DefaultGradleLauncher$1.create(DefaultGradleLauncher.java:92)
-	at org.gradle.internal.progress.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:91)
-	at org.gradle.internal.progress.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:63)
-	at org.gradle.initialization.DefaultGradleLauncher.doBuild(DefaultGradleLauncher.java:92)
-	at org.gradle.initialization.DefaultGradleLauncher.run(DefaultGradleLauncher.java:83)
-	at org.gradle.launcher.exec.InProcessBuildActionExecuter$DefaultBuildController.run(InProcessBuildActionExecuter.java:99)
-	at org.gradle.tooling.internal.provider.ExecuteBuildActionRunner.run(ExecuteBuildActionRunner.java:28)
-	at org.gradle.launcher.exec.ChainingBuildActionRunner.run(ChainingBuildActionRunner.java:35)
-	at org.gradle.launcher.exec.InProcessBuildActionExecuter.execute(InProcessBuildActionExecuter.java:48)
-	at org.gradle.launcher.exec.InProcessBuildActionExecuter.execute(InProcessBuildActionExecuter.java:30)
-	at org.gradle.launcher.exec.ContinuousBuildActionExecuter.execute(ContinuousBuildActionExecuter.java:81)
-	at org.gradle.launcher.exec.ContinuousBuildActionExecuter.execute(ContinuousBuildActionExecuter.java:46)
-	at org.gradle.launcher.exec.DaemonUsageSuggestingBuildActionExecuter.execute(DaemonUsageSuggestingBuildActionExecuter.java:51)
-	at org.gradle.launcher.exec.DaemonUsageSuggestingBuildActionExecuter.execute(DaemonUsageSuggestingBuildActionExecuter.java:28)
-	at org.gradle.launcher.cli.RunBuildAction.run(RunBuildAction.java:43)
-	at org.gradle.internal.Actions$RunnableActionAdapter.execute(Actions.java:173)
-	at org.gradle.launcher.cli.CommandLineActionFactory$ParseAndBuildAction.execute(CommandLineActionFactory.java:239)
-	at org.gradle.launcher.cli.CommandLineActionFactory$ParseAndBuildAction.execute(CommandLineActionFactory.java:212)
-	at org.gradle.launcher.cli.JavaRuntimeValidationAction.execute(JavaRuntimeValidationAction.java:35)
-	at org.gradle.launcher.cli.JavaRuntimeValidationAction.execute(JavaRuntimeValidationAction.java:24)
-	at org.gradle.launcher.cli.ExceptionReportingAction.execute(ExceptionReportingAction.java:33)
-	at org.gradle.launcher.cli.ExceptionReportingAction.execute(ExceptionReportingAction.java:22)
-	at org.gradle.launcher.cli.CommandLineActionFactory$WithLogging.execute(CommandLineActionFactory.java:205)
-	at org.gradle.launcher.cli.CommandLineActionFactory$WithLogging.execute(CommandLineActionFactory.java:169)
-	at org.gradle.launcher.Main.doAction(Main.java:33)
-	at org.gradle.launcher.bootstrap.EntryPoint.run(EntryPoint.java:45)
-	at org.gradle.launcher.bootstrap.ProcessBootstrap.runNoExit(ProcessBootstrap.java:55)
-	at org.gradle.launcher.bootstrap.ProcessBootstrap.run(ProcessBootstrap.java:36)
-	at org.gradle.launcher.GradleMain.main(GradleMain.java:23)
-	at org.gradle.wrapper.BootstrapMainStarter.start(BootstrapMainStarter.java:30)
-	at org.gradle.wrapper.WrapperExecutor.execute(WrapperExecutor.java:129)
-	at org.gradle.wrapper.GradleWrapperMain.main(GradleWrapperMain.java:61)
-Caused by: java.lang.RuntimeException: java.io.FileNotFoundException: /home/runner/.gradle/caches/minecraft/assets/indexes/1.7.10.json (No such file or directory)
-	at com.google.common.base.Throwables.propagate(Throwables.java:160)
-	at net.minecraftforge.gradle.common.BasePlugin$4.execute(BasePlugin.java:268)
-	at net.minecraftforge.gradle.common.BasePlugin$4.execute(BasePlugin.java:259)
-	at org.gradle.api.internal.AbstractTask$TaskActionWrapper.execute(AbstractTask.java:621)
-	at org.gradle.api.internal.AbstractTask$TaskActionWrapper.execute(AbstractTask.java:604)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeAction(ExecuteActionsTaskExecuter.java:80)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeActions(ExecuteActionsTaskExecuter.java:61)
-	... 60 more
-Caused by: java.io.FileNotFoundException: /home/runner/.gradle/caches/minecraft/assets/indexes/1.7.10.json (No such file or directory)
-	at net.minecraftforge.gradle.json.JsonFactory.loadAssetsIndex(JsonFactory.java:62)
-	at net.minecraftforge.gradle.common.BasePlugin.parseAssetIndex(BasePlugin.java:333)
-	at net.minecraftforge.gradle.common.BasePlugin$4.execute(BasePlugin.java:264)
-	... 65 more
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
 
+      - name: Install Gradle 2.14.1
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-2.14.1-bin.zip -O /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /opt/gradle
+          echo "/opt/gradle/gradle-2.14.1/bin" >> $GITHUB_PATH
 
-BUILD FAILED
+      - name: Generate wrapper
+        run: gradle wrapper --gradle-version 2.14.1
 
-Total time: 6.765 secs
-Stopped 0 compiler daemon(s).
-Error: Process completed with exit code 1
+      - name: Fix Minecraft asset cache
+        run: |
+          python3 << 'EOF'
+          import urllib.request, json, os
+          C = os.path.expanduser("~/.gradle/caches/minecraft")
+          os.makedirs(f"{C}/assets/indexes", exist_ok=True)
+          os.makedirs(f"{C}/versions/1.7.10", exist_ok=True)
+          os.makedirs(f"{C}/jars", exist_ok=True)
+          with urllib.request.urlopen("https://launchermeta.mojang.com/mc/game/version_manifest.json") as r:
+              m = json.load(r)
+          url = next(v["url"] for v in m["versions"] if v["id"] == "1.7.10")
+          with urllib.request.urlopen(url) as r:
+              d = r.read()
+          open(f"{C}/versions/1.7.10/1.7.10.json","wb").write(d)
+          vj = json.loads(d)
+          with urllib.request.urlopen(vj["assetIndex"]["url"]) as r:
+              open(f"{C}/assets/indexes/1.7.10.json","wb").write(r.read())
+          urllib.request.urlretrieve(vj["downloads"]["client"]["url"], f"{C}/jars/minecraft.jar")
+          print("Done!")
+          EOF
+
+      - name: Build
+        run: ./gradlew setupDecompWorkspace build --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RealityFracture
+          path: build/libs/*.jar
