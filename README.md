@@ -4,7 +4,7 @@
 
 ---
 
-ть в `HorrorEventHandler`).
+
 
 ---
 
